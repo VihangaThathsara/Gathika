@@ -39,9 +39,9 @@ import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import modal.HomeInfo;
 import modal.beans.Admin;
 import modal.SetDate;
-import modal.HomeInfo;
 
 public class Dashboard extends javax.swing.JFrame {
 
