@@ -55,7 +55,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel8" max="32767" attributes="0"/>
-          <Component id="jTabbedPaneClassSchedule" alignment="0" pref="984" max="32767" attributes="0"/>
+          <Component id="jTabbedPaneClassSchedule" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -139,7 +139,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jScrollPane7" max="32767" attributes="0"/>
                               <Component id="jScrollPane1" max="32767" attributes="0"/>
-                              <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jPanel3" alignment="0" pref="938" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
@@ -154,7 +154,7 @@
                                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                   <Component id="classAutoloadeReset" min="-2" pref="108" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jPanel4" alignment="0" pref="955" max="32767" attributes="0"/>
+                              <Component id="jPanel4" alignment="0" pref="938" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -1003,7 +1003,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jScrollPane8" alignment="0" max="32767" attributes="0"/>
                               <Component id="jScrollPane4" alignment="0" max="32767" attributes="0"/>
-                              <Component id="jPanel9" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jPanel9" alignment="0" pref="938" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
@@ -1018,7 +1018,7 @@
                                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                   <Component id="resetCourseSelection" min="-2" pref="108" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jPanel10" alignment="0" pref="955" max="32767" attributes="0"/>
+                              <Component id="jPanel10" alignment="0" pref="938" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -1962,11 +1962,13 @@
                               <Component id="classReportScheduleStatusCombobox" alignment="0" pref="35" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel36" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                              <Component id="jLabel32" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                              <Component id="classReportHallTypeCombobox" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="classReportIDField" alignment="1" min="-2" pref="35" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jLabel36" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                  <Component id="jLabel32" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                  <Component id="classReportHallTypeCombobox" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       </Group>

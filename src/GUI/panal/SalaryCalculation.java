@@ -16,7 +16,6 @@ import modal.HomeInfo;
 import modal.LogCenter;
 import modal.SetDate;
 import modal.beans.Admin;
-import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import raven.toast.Notifications;
@@ -789,7 +788,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
-            printEmployeeSalaryReport();
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "jButton4", e);
         }
@@ -797,7 +795,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
-            printTeacherSalaryReport();
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "jButton9", e);
         }
@@ -1224,131 +1221,6 @@ public class SalaryCalculation extends javax.swing.JPanel {
         loadTeacherSallary();
     }
 
-    private void printEmployeeSalaryReport() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(table1.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "Employees Salary Report");
-
-            // Use saveReport method to save the report
-            modal.Reporting reporting = new modal.Reporting();
-            boolean isSaved = reporting.saveReport("EMP_Salary_Report", params, dataSource, this.admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Employee Salary Report saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Employee Salary Report saving was canceled");
-            }
-
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "printEmployeeSalaryReport", e);
-        }
-
-    }
-
-    private void printTeacherSalaryReport() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "Teachers Salary Report");
-
-            // Use saveReport method to save the report
-            modal.Reporting reporting = new modal.Reporting();
-            boolean isSaved = reporting.saveReport("Teacher_Salary_Report", params, dataSource, this.admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Teacher Salary Report saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Teacher Salary Report saving was canceled");
-            }
-
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "printTeacherSalaryReport", e);
-        }
-
-    }
-
-    private void printPayment(HashMap data) throws JRException {
-
-        try {
-            // Retrieve system data
-            Home home = new HomeInfo().getHome();
-
-            String topic0 = (String) data.get("t0");
-            String topic1 = (String) data.get("t1");
-            String topic2 = (String) data.get("t2");
-            String topic3 = (String) data.get("t3");
-
-            String p0 = (String) data.get("p0");
-            String p1 = (String) data.get("p1");
-            Double p2 = (Double) data.get("p2");
-            Double p3 = (Double) data.get("p3");
-
-            // Parameters for the report
-            HashMap<String, Object> parm = new HashMap<>();
-
-            parm.put("institute", home.getHomeName());
-            parm.put("title", "Payment Invoice");
-            parm.put("address", home.getLine01() + ", " + home.getLine02() + ", " + home.getCity());
-            parm.put("mobile", home.getMobile());
-            parm.put("land", home.getLandLine());
-            parm.put("email", home.getEmail());
-
-            parm.put("topic0", topic0); // Pass the actual EMP name or Teacher name
-            parm.put("topic1", topic1); // Pass the actual worked Days or earn
-            parm.put("topic2", topic2); // Pass the actual bonus or commission
-            parm.put("topic3", topic3); // Pass the actual total
-
-            parm.put("p0", p0); // Pass the actual EMP name or Teacher name data
-            parm.put("p1", p1); // Pass the actual worked Days or earn data
-            parm.put("p2", p2); // Pass the actual bonus or commission data
-            parm.put("p3", p3); // Pass the actual total data
-
-            // Save the report (assuming saveReport is part of your modal.Reporting logic)
-            boolean print = new modal.Reporting().printReport("Payment_Report", parm);
-
-            // Display the report
-            if (print) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Invoice Printing Success");
-
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Invoice Printing Failed");
-            }
-
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "printPayment", e);
-        }
-
-    }
-
     private void employeePayment() {
         try {
             Double sallaryPerDay = null;
@@ -1410,7 +1282,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                     data.put("p2", bonus);
                     data.put("p3", total);
 
-                    printPayment(data);
+                    //printPayment(data);
                     reset();
                 }
             }
@@ -1554,7 +1426,7 @@ public class SalaryCalculation extends javax.swing.JPanel {
                 data.put("p2", comission);
                 data.put("p3", earn);
 
-                printPayment(data);
+                //printPayment(data);
                 refresh();
             }
 

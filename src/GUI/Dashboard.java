@@ -2,7 +2,6 @@ package GUI;
 
 import GUI.panal.ClassManagement;
 import GUI.panal.ClassScheduleManagement;
-import GUI.panal.CourseManagement;
 import GUI.panal.PaymentManagement;
 
 //import GUI.panal.Reporting;
@@ -39,9 +38,9 @@ import java.util.Vector;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import modal.HomeInfo;
 import modal.beans.Admin;
 import modal.SetDate;
-import modal.HomeInfo;
 
 public class Dashboard extends javax.swing.JFrame {
 
@@ -124,7 +123,6 @@ public class Dashboard extends javax.swing.JFrame {
         classSManagement = new javax.swing.JButton();
         studentEnrollment = new javax.swing.JButton();
         hallManagement = new javax.swing.JButton();
-        courseManagement = new javax.swing.JButton();
         classManagement = new javax.swing.JButton();
         teacherManagement = new javax.swing.JButton();
         studentManagement = new javax.swing.JButton();
@@ -278,19 +276,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        courseManagement.setFont(new java.awt.Font("SchulbuchNord", 0, 14)); // NOI18N
-        courseManagement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/course.png"))); // NOI18N
-        courseManagement.setText(" Course Management");
-        courseManagement.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        courseManagement.setContentAreaFilled(false);
-        courseManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        courseManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        courseManagement.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                courseManagementActionPerformed(evt);
-            }
-        });
-
         classManagement.setFont(new java.awt.Font("SchulbuchNord", 0, 14)); // NOI18N
         classManagement.setIcon(new javax.swing.ImageIcon(getClass().getResource("/source/add class.png"))); // NOI18N
         classManagement.setText(" Class Management");
@@ -376,7 +361,6 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(studentManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(teacherManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(classManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(courseManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(hallManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(studentEnrollment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(classSManagement, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -401,9 +385,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(teacherManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(classManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(courseManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(50, 50, 50)
                 .addComponent(hallManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(studentEnrollment, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -665,10 +647,6 @@ public class Dashboard extends javax.swing.JFrame {
         loadPanal(new HallManagement(admin));
     }//GEN-LAST:event_hallManagementActionPerformed
 
-    private void courseManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseManagementActionPerformed
-        loadPanal(new CourseManagement(admin));
-    }//GEN-LAST:event_courseManagementActionPerformed
-
     private void classManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classManagementActionPerformed
         loadPanal(new ClassManagement(admin));
     }//GEN-LAST:event_classManagementActionPerformed
@@ -728,7 +706,6 @@ public class Dashboard extends javax.swing.JFrame {
             studentManagement.setEnabled(true);
             teacherManagement.setEnabled(true);
             classManagement.setEnabled(true);
-            courseManagement.setEnabled(true);
             hallManagement.setEnabled(true);
             studentEnrollment.setEnabled(true);
             classSManagement.setEnabled(true);
@@ -743,7 +720,6 @@ public class Dashboard extends javax.swing.JFrame {
             studentManagement.setEnabled(true);
             teacherManagement.setEnabled(true);
             classManagement.setEnabled(true);
-            courseManagement.setEnabled(true);
             hallManagement.setEnabled(true);
             studentEnrollment.setEnabled(true);
             classSManagement.setEnabled(true);
@@ -758,7 +734,6 @@ public class Dashboard extends javax.swing.JFrame {
             studentManagement.setEnabled(true);
             teacherManagement.setEnabled(false);
             classManagement.setEnabled(false);
-            courseManagement.setEnabled(false);
             hallManagement.setEnabled(false);
             studentEnrollment.setEnabled(false);
             classSManagement.setEnabled(false);
@@ -773,7 +748,6 @@ public class Dashboard extends javax.swing.JFrame {
             studentManagement.setEnabled(false);
             teacherManagement.setEnabled(false);
             classManagement.setEnabled(false);
-            courseManagement.setEnabled(false);
             hallManagement.setEnabled(false);
             studentEnrollment.setEnabled(false);
             classSManagement.setEnabled(false);
@@ -791,7 +765,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton attendance;
     private javax.swing.JButton classManagement;
     private javax.swing.JButton classSManagement;
-    private javax.swing.JButton courseManagement;
     private javax.swing.JLabel date;
     private javax.swing.JButton employeeManagement;
     private javax.swing.JButton hallManagement;

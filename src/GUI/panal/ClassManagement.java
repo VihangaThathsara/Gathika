@@ -19,11 +19,9 @@ import modal.DB;
 import modal.HomeInfo;
 import modal.IDGenarator;
 import modal.LogCenter;
-import modal.Reporting;
 import modal.SetDate;
 import modal.beans.Admin;
 import modal.beans.ClassDay;
-import modal.beans.Home;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -988,12 +986,11 @@ public class ClassManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        viewReportClass();
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         try {
-            printReportClass();
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "jButton9ActionPerformed", e);
         }
@@ -1957,70 +1954,6 @@ public class ClassManagement extends javax.swing.JPanel {
         jComboBox14.setSelectedItem("Select");
         jComboBox15.setSelectedItem("Select");
         SearchReport();
-    }
-
-    private void printReportClass() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("Parameter2", home.getLandLine());
-            params.put("Parameter3", home.getEmail());
-            params.put("Parameter4", home.getMobile());
-            params.put("Parameter5", "CLASS REPORT");
-
-            // Create an Admin instance (assuming you have access to it in this context)
-            // Use saveReport method to save the report
-            Reporting reporting = new Reporting();
-            boolean isSaved = reporting.saveReport("ClassManagementReport", params, dataSource, admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Class Management Report saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Class Management Report saving was canceled");
-            }
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
-        } catch (Exception ex) {
-            // Catch any other unexpected exceptions
-            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
-        }
-    }
-
-    private void viewReportClass() {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("Parameter1", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("Parameter2", home.getLandLine());
-            params.put("Parameter3", home.getEmail());
-            params.put("Parameter4", home.getMobile());
-            params.put("Parameter5", "CLASS REPORT");
-
-            new Reporting().viewReport("ClassManagementReport", params, dataSource, admin);
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (JRException ex) {
-            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
 }

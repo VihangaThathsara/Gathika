@@ -21,11 +21,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modal.HomeInfo;
 import modal.LogCenter;
-import modal.Reporting;
 import modal.SetDate;
 import modal.Validator;
 import modal.beans.Admin;
-import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import modal.RoundedPanel;
@@ -1183,11 +1181,11 @@ public class PaymentManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        printReport();
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        viweReport();
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jTextField16KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField16KeyReleased
@@ -1663,7 +1661,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                 data.put("CA", classPayment.getText());
                 data.put("BA", classBalance.getText());
                 // prin invoice
-                printInvoive(data, classTable, true);
+                //printInvoive(data, classTable, true);
                 clear();
             }
 
@@ -1673,51 +1671,6 @@ public class PaymentManagement extends javax.swing.JPanel {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "SQL Query Problem", ex);
         } catch (IOException ex) {
             LogCenter.logger.log(java.util.logging.Level.WARNING, "Database Connecting Problem", ex);
-        }
-    }
-
-    private void printInvoive(HashMap data, JTable table, boolean isClass) {
-        try {
-
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(table.getModel());
-
-            //get System Data 
-            Home home = new HomeInfo().getHome();
-
-            // paramters
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("institute", home.getHomeName());
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("mobile", "Mobile" + home.getMobile());
-            params.put("admin", "Admin " + admin.getUserName());
-            params.put("student", data.get("ST"));
-            params.put("date", SetDate.getDate("yyyy-MM-dd hh:mm:ss"));
-            params.put("land", "Land" + home.getLandLine());
-            params.put("Total", data.get("TO"));
-            params.put("Cash", data.get("CA"));
-            params.put("Balance", data.get("BA"));
-
-            boolean print = false;
-
-            if (isClass) {
-                print = new Reporting().printReport("bill", data, dataSource);
-            } else {
-                print = new Reporting().printReport("bill2", data, dataSource);
-            }
-
-            if (!print) {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Invoice Printing Faild");
-            }
-
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (FileNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
         }
     }
 
@@ -2006,7 +1959,7 @@ public class PaymentManagement extends javax.swing.JPanel {
                 data.put("CA", course_payment.getText());
                 data.put("BA", course_balacnce.getText());
                 // prin invoice
-                printInvoive(data, course_table, false);
+                //printInvoive(data, course_table, false);
                 clearAll();
             }
 
@@ -2190,38 +2143,6 @@ public class PaymentManagement extends javax.swing.JPanel {
         }
     }
 
-    private void printReport() {
-        try {
-            //get System Data 
-            Home home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("phone", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Payment Reports");
-
-            boolean save = new Reporting().saveReport("payment", params, dataSource, admin);
-            if (save) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "report Saved");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "report not Saved");
-            }
-
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (FileNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        }
-    }
-
     private void cleanReport() {
         jTextField16.setText("");
         jTextField17.setText("");
@@ -2232,27 +2153,4 @@ public class PaymentManagement extends javax.swing.JPanel {
         cheackCondition();
     }
 
-    private void viweReport() {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("phone", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Payment Reports");
-
-            new Reporting().viewReport("payment", params, dataSource, admin);
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (JRException ex) {
-            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
 }

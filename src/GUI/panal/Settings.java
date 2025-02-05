@@ -19,7 +19,6 @@ import javax.swing.table.DefaultTableModel;
 import modal.LogCenter;
 import modal.Validator;
 import modal.WordFormat;
-import modal.beans.Home;
 import modal.HomeInfo;
 import modal.RoundedPanel;
 
@@ -49,7 +48,6 @@ public class Settings extends javax.swing.JPanel {
         loardSubjects();
         loardGrades();
         loardCity();
-        loardHome();
     }
 
     @SuppressWarnings("unchecked")
@@ -1374,103 +1372,6 @@ public class Settings extends javax.swing.JPanel {
         }
     }
 
-    // update homeifo.ser file
-    private void SaveHomeData() {
-
-        String name = homename.getText();
-        String line1 = line01.getText();
-        String line2 = line02.getText();
-        String city = (String) this.city.getSelectedItem();
-        String landline = landLine.getText();
-        String phone = mobile.getText();
-        String mail = email.getText();
-
-        String host = this.host1.getText();
-        String port = this.port1.getText();
-        String database = this.database1.getText();
-        String admin = username.getText();
-        String password = this.password.getText();
-
-        // Validation checks
-        if (name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Institute name is required");
-        } else if (line1.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Address Line 1 is required");
-        } else if (line2.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Address Line 2 is required");
-        } else if (city.equals("Select City")) {
-            JOptionPane.showMessageDialog(this, "City is required");
-        } else if (landline.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "landline  is required");
-        } else if (phone.isEmpty()) {
-            JOptionPane.showMessageDialog(this, " mobile is required");
-        } else if (mail.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Email is required");
-        } else if (host.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Host is required");
-        } else if (port.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Port is required");
-        } else if (database.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Database name is required");
-        } else if (admin.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Admin username is required");
-        } else if (password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Password is required");
-        } else {
-
-            //Create bean that include data
-            Home home = new Home();
-            home.setHomeName(name);
-            home.setLine01(line1);
-            home.setLine02(line2);
-            home.setCity(city);
-            home.setLandLine(landline);
-            home.setMobile(phone);
-            home.setEmail(mail);
-            home.setHost(host);
-            home.setPort(port);
-            home.setDatabase(database);
-            home.setAdmin(admin);
-            home.setPassword(password);
-
-            try {
-                // ceate and save data
-                if (ValidateConnection(host, port, database, admin, password)) {
-                    new HomeInfo().setHome(home);
-                    loardHome();
-                    JOptionPane.showMessageDialog(this, "Update Success");
-                }
-            } catch (IOException ex) {
-                LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while copying image", ex);
-            }
-        }
-    }
-
-    // getdata from homenfo.ser
-    private void loardHome() {
-        try {
-            Home home = new HomeInfo().getHome();
-
-            homename.setText(home.getHomeName());
-            line01.setText(home.getLine01());
-            line02.setText(home.getLine02());
-            city.setSelectedItem(home.getCity());
-            landLine.setText(home.getLandLine());
-            mobile.setText(home.getMobile());
-            email.setText(home.getEmail());
-
-            host1.setText(home.getHost());
-            port1.setText(home.getPort());
-            database1.setText(home.getDatabase());
-            username.setText(home.getAdmin());
-            password.setText(home.getPassword());
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error occurred while Loarding Homeinfo", ex);
-        }
-    }
 
     private boolean ValidateConnection(String host, String port, String db, String admin, String ps) {
         String url = "jdbc:mysql://" + host + ":" + port + "/" + db;

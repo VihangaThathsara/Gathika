@@ -22,7 +22,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import modal.HomeInfo;
-import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import raven.toast.Notifications;
@@ -1115,7 +1114,7 @@ public class systemAccess extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            printReportAccess();
+            //printReportAccess();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1131,7 +1130,7 @@ public class systemAccess extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            printReportLogin();
+            //printReportLogin();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1464,81 +1463,7 @@ public class systemAccess extends javax.swing.JPanel {
     }
 
     //Reporting 
-    private void printReportAccess() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(table2.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "System Access Report");
-
-            // Create an Admin instance (assuming you have access to it in this context)
-            // Use saveReport method to save the report
-            modal.Reporting reporting = new modal.Reporting();
-            boolean isSaved = reporting.saveReport("System_Access_Report", params, dataSource, admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "System Access saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "System Access saving was cancelled");
-            }
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
-        } catch (Exception ex) {
-            // Catch any other unexpected exceptions
-            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
-        }
-    }
-
-    private void printReportLogin() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(logingDataTable.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "System Login Report");
-
-            // Create an Admin instance (assuming you have access to it in this context)
-            // Use saveReport method to save the report
-            modal.Reporting reporting = new modal.Reporting();
-            boolean isSaved = reporting.saveReport("System_Login_Report", params, dataSource, admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER, "System Login Report saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER, "System Login Report saving was cancelled");
-            }
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
-        } catch (Exception ex) {
-            // Catch any other unexpected exceptions
-            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
-        }
-    }
+    
 
     private void loardLoging() {
 

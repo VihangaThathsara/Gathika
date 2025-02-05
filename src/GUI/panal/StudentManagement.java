@@ -33,8 +33,6 @@ import java.util.logging.Logger;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import modal.HomeInfo;
-import modal.Reporting;
-import modal.beans.Home;
 import raven.toast.Notifications;
 import modal.RoundedPanel;
 
@@ -998,10 +996,10 @@ public class StudentManagement extends javax.swing.JPanel {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         if (jRadioButton1.isSelected()) {
             // Call Enrollment View Method
-            viweReportEnrollement();
+            //viweReportEnrollement();
         } else if (jRadioButton2.isSelected()) {
             // Call Payment View Method
-            viweReportPayment();
+            //viweReportPayment();
         } else {
             // Display a warning if no selection is made
 
@@ -1018,17 +1016,17 @@ public class StudentManagement extends javax.swing.JPanel {
         try {
             if (jRadioButton1.isSelected()) {
                 // Print Enrollment Report
-                printReportEnrollement();
+                //printReportEnrollement();
             } else if (jRadioButton2.isSelected()) {
                 // Print Payment Report
-                printReportPayment();
+                //printReportPayment();
             } else {
                 // Display a warning if no selection is made
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
                         "Please select a report to print.");
             }
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+        } catch (Exception e) {
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", e);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -1789,136 +1787,5 @@ public class StudentManagement extends javax.swing.JPanel {
     }
 
     //REPORTING
-    //Print Reporting Enrollement
-    private void printReportEnrollement() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "Student Enrollement");
-
-            // Create an Admin instance (assuming you have access to it in this context)
-            // Use saveReport method to save the report
-            Reporting reporting = new Reporting();
-            boolean isSaved = reporting.saveReport("ST_Enrollement_Report", params, dataSource, admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                        "Student Enrollement saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER,
-                        "Student Enrollement saving was canceled");
-            }
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
-        } catch (Exception ex) {
-            // Catch any other unexpected exceptions
-            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
-        }
-    }
-
-    //Viwe Reporting Enrollement
-    private void viweReportEnrollement() {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Student Enrollement");
-
-            new Reporting().viewReport("ST_Enrollement_Report", params, dataSource, admin);
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (JRException ex) {
-            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    //Print Reporting Payment
-    private void printReportPayment() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "Student Payment");
-
-            // Create an Admin instance (assuming you have access to it in this context)
-            // Use saveReport method to save the report
-            Reporting reporting = new Reporting();
-            boolean isSaved = reporting.saveReport("ST_Payment_Report", params, dataSource, admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                        "Student Payment Report saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER,
-                        "Student Payment Report saving was canceled");
-            }
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
-        } catch (Exception ex) {
-            // Catch any other unexpected exceptions
-            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
-        }
-    }
-
-    //Viwe Reporting Payment
-    private void viweReportPayment() {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Student Payment");
-
-            new Reporting().viewReport("ST_Payment_Report", params, dataSource, admin);
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (JRException ex) {
-            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
 
 }
