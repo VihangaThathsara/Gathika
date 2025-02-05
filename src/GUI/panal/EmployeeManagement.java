@@ -7,19 +7,15 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.DB;
-import modal.Reporting;
-import modal.HomeInfo;
 import modal.Validator;
 import modal.IDGenarator;
 import modal.LogCenter;
 import modal.SetDate;
 import modal.beans.Admin;
-import modal.beans.Home;
 import modal.RoundedPanel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
@@ -508,7 +504,6 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            printReport();
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "jButton2ActionPerformed", e);
         }
@@ -677,40 +672,6 @@ public class EmployeeManagement extends javax.swing.JPanel {
 
     }
 
-    private void printReport() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "Employees Report");
-
-            // Use saveReport method to save the report
-            Reporting reporting = new Reporting();
-            boolean isSaved = reporting.saveReport("EMP_Report", params, dataSource, this.admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Employee Report saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Employee Report saving was canceled");
-            }
-
-        } catch (Exception e) {
-            LogCenter.logger.log(Level.WARNING, "printReport", e);
-        }
-
-    }
 
     public void refresh() {
         jTextField1.setText("");

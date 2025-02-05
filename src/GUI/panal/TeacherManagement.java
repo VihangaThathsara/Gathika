@@ -22,10 +22,8 @@ import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.HomeInfo;
 import modal.LogCenter;
-import modal.Reporting;
 import modal.Validator;
 import modal.beans.Admin;
-import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import raven.toast.Notifications;
@@ -485,11 +483,6 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         jTextField7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField7.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
         jTextField7.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField7KeyReleased(evt);
@@ -501,11 +494,6 @@ public class TeacherManagement extends javax.swing.JPanel {
 
         jTextField8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField8.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
-            }
-        });
         jTextField8.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField8KeyReleased(evt);
@@ -802,18 +790,18 @@ public class TeacherManagement extends javax.swing.JPanel {
         try {
             if (jRadioButton1.isSelected()) {
                 // Print Enrollment Report
-                printReportEnrollement();
+                //printReportEnrollement();
             } else if (jRadioButton2.isSelected()) {
                 // Print Payment Report
-                printReportPayment();
+                //printReportPayment();
             } else {
                 // Display a warning if no selection is made
                 Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
                         "Please select a report to print.");
             }
-        } catch (JRException ex) {
+        } catch (Exception e) {
             // Log the JRException if it occurs during report generation
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
+            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", e);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -824,24 +812,16 @@ public class TeacherManagement extends javax.swing.JPanel {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         if (jRadioButton1.isSelected()) {
             // Call Enrollment View Method
-            viweReportEnrollement();
+            //viweReportEnrollement();
         } else if (jRadioButton2.isSelected()) {
             // Call Payment View Method
-            viweReportPayment();
+            //viweReportPayment();
         } else {
             // Display a warning if no selection is made
             Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
                     "Please select a report to view.");
         }
     }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
-
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         clearAll(); // clearAll Button jButton5
@@ -1533,136 +1513,6 @@ public class TeacherManagement extends javax.swing.JPanel {
     }
 
     //Reporting 
-    //Print Reporting Enrollement
-    private void printReportEnrollement() throws JRException {
 
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "Teacher Enrollement");
-
-            // Create an Admin instance (assuming you have access to it in this context)
-            // Use saveReport method to save the report
-            Reporting reporting = new Reporting();
-            boolean isSaved = reporting.saveReport("TE_Enrollement_Report", params, dataSource, admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                        "Teacher Enrollement saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Teacher Enrollement saving was canceled");
-            }
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
-        } catch (Exception ex) {
-            // Catch any other unexpected exceptions
-            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
-        }
-    }
-
-    //Viwe Reporting Enrollement
-    private void viweReportEnrollement() {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable2.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Teacher Enrollement");
-
-            new Reporting().viewReport("TE_Enrollement_Report", params, dataSource, admin);
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (JRException ex) {
-            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    //Print Reporting Payment
-    private void printReportPayment() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "Teacher Payment");
-
-            // Create an Admin instance (assuming you have access to it in this context)
-            // Use saveReport method to save the report
-            Reporting reporting = new Reporting();
-            boolean isSaved = reporting.saveReport("TE_Payment_Report", params, dataSource, admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                        "Teacher Payment Report saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.WARNING, Notifications.Location.TOP_CENTER,
-                        "Teacher Payment Report saving was canceled");
-            }
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
-        } catch (Exception ex) {
-            // Catch any other unexpected exceptions
-            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
-        }
-    }
-
-    //Viwe Reporting Payment
-    private void viweReportPayment() {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable3.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Teacher Payment");
-
-            new Reporting().viewReport("TE_Payment_Report", params, dataSource, admin);
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (JRException ex) {
-            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
 
 }

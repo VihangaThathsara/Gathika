@@ -26,9 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import modal.DB;
 import modal.HomeInfo;
 import modal.LogCenter;
-import modal.Reporting;
 import modal.beans.Admin;
-import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import modal.RoundedPanel;
@@ -994,14 +992,14 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
     private void eClassPrintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eClassPrintButtonActionPerformed
         try {
-            printReportClassEnrollment();
+
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "eClassPrintButtonActionPerformed", e);
         }
     }//GEN-LAST:event_eClassPrintButtonActionPerformed
 
     private void eClassViewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eClassViewButtonActionPerformed
-        viweReportClassEnrollment();
+
     }//GEN-LAST:event_eClassViewButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1034,14 +1032,14 @@ public class EnrollmentManagement extends javax.swing.JPanel {
 
     private void eCoursePrintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eCoursePrintButtonActionPerformed
         try {
-            printReportCourseEnrollment();
+
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "eCoursePrintButtonActionPerformed", e);
         }
     }//GEN-LAST:event_eCoursePrintButtonActionPerformed
 
     private void eCourseViewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eCourseViewButtonActionPerformed
-        viweReportCourseEnrollment();
+
     }//GEN-LAST:event_eCourseViewButtonActionPerformed
 
     private void eCourseReportClearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eCourseReportClearButtonActionPerformed
@@ -1604,136 +1602,7 @@ public class EnrollmentManagement extends javax.swing.JPanel {
     }
     // course Enrollment Reporting----------------------------------------------------------------------------------------------------------
 
-    //class Enrollment reporting print------------------------------------------------------------------------------------------------------
-    private void printReportClassEnrollment() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(enrollmentClassReportTable.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "Student Class Enrollment Report");
-
-            // Create an Admin instance (assuming you have access to it in this context)
-            // Use saveReport method to save the report
-            Reporting reporting = new Reporting();
-            boolean isSaved = reporting.saveReport("Student_Class_Enrollment_Report", params, dataSource, admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                    "Student Class Enrollment Report saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Student Class Enrollment Report saving was canceled");
-            }
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
-        } catch (Exception ex) {
-            // Catch any other unexpected exceptions
-            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
-        }
-    }
-    //class Enrollment reporting print------------------------------------------------------------------------------------------------------
-
-    //class Enrollment reporting view-------------------------------------------------------------------------------------------------------
-    private void viweReportClassEnrollment() {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(enrollmentClassReportTable.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Student Class Enrollment Report");
-
-            new Reporting().viewReport("Student_Class_Enrollment_Report", params, dataSource, admin);
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (JRException ex) {
-            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    //class Enrollment reporting view-------------------------------------------------------------------------------------------------------
-    //course Enrollment reporting print-----------------------------------------------------------------------------------------------------
-    private void printReportCourseEnrollment() throws JRException {
-
-        try {
-            // Use JRTableModelDataSource from jTable1's model
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(enrollmentCourseReportTable.getModel());
-
-            // Get system data
-            Home home = new HomeInfo().getHome();
-
-            // Parameters for the report
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("address", home.getLine01() + "," + home.getLine02() + "," + home.getCity());
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("title", "Student Course Enrollment Report");
-
-            // Create an Admin instance (assuming you have access to it in this context)
-            // Use saveReport method to save the report
-            Reporting reporting = new Reporting();
-            boolean isSaved = reporting.saveReport("Student_Course_Enrollment_Report", params, dataSource, admin);
-
-            if (isSaved) {
-                JOptionPane.showMessageDialog(this, "Student Course Enrollment Report saved successfully");
-            } else {
-                JOptionPane.showMessageDialog(this, "Student Course Enrollment Report saving was canceled");
-            }
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "I/O error occurred while printing the report", ex);
-        } catch (JRException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error occurred while generating the report", ex);
-        } catch (Exception ex) {
-            // Catch any other unexpected exceptions
-            LogCenter.logger.log(Level.WARNING, "Unexpected error occurred while printing the report", ex);
-        }
-    }
-
-    //course Enrollment reporting print-----------------------------------------------------------------------------------------------------
-    //course Enrollment reporting view------------------------------------------------------------------------------------------------------
-    private void viweReportCourseEnrollment() {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(enrollmentCourseReportTable.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Student Course Enrollment Report");
-
-            new Reporting().viewReport("Student_Course_Enrollment_Report", params, dataSource, admin);
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (JRException ex) {
-            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 
     //course Enrollment reporting view------------------------------------------------------------------------------------------------------
 }

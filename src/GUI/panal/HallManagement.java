@@ -16,7 +16,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modal.IDGenarator;
 import modal.LogCenter;
-import modal.Reporting;
 import modal.beans.Admin;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -328,11 +327,11 @@ public class HallManagement extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        print();
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        save();
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -600,61 +599,6 @@ public class HallManagement extends javax.swing.JPanel {
         loadHall();
 
         jButton1.setEnabled(true); //add new hall button enable
-    }
-
-    //save class room report as a pdf
-    private void save() {
-
-        try {
-
-            // Parameters (empty in this case)
-            HashMap<String, Object> params = new HashMap<>();
-
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-
-            Reporting reporting = new Reporting();
-            boolean isSaved = reporting.saveReport("Hall_Repo", params, dataSource, admin);
-
-            if (isSaved) {
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, Notifications.Location.TOP_CENTER,
-                        "Hall Report saved successfully");
-            } else {
-                Notifications.getInstance().show(Notifications.Type.INFO, Notifications.Location.TOP_CENTER,
-                        "Hall Report saving was canceled");
-            }
-
-        } catch (JRException e) {
-            e.printStackTrace();
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Error generating report: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Notifications.getInstance().show(Notifications.Type.ERROR, Notifications.Location.TOP_CENTER,
-                    "Error generating report: " + e.getMessage());
-        }
-
-    }
-
-    //print class room reports
-    private void print() {
-
-        try {
-
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-
-            // Parameters (empty in this case)
-            HashMap<String, Object> params = new HashMap<>();
-
-            new Reporting().viewReport("Hall_Repo", params, dataSource, admin);
-
-        } catch (IOException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (ClassNotFoundException ex) {
-            LogCenter.logger.log(Level.WARNING, "Error", ex);
-        } catch (JRException ex) {
-            Logger.getLogger(PaymentManagement.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
 }

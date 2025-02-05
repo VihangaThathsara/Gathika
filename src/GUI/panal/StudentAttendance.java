@@ -13,9 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modal.HomeInfo;
 import modal.LogCenter;
-import modal.Reporting;
 import modal.beans.Admin;
-import modal.beans.Home;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import modal.RoundedPanel;
@@ -991,7 +989,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     private void class_attn_print_buttonActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            ClassReport();
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "ClassReportButton", e);
         }
@@ -1020,7 +1017,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            EmployeeReport();
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "EmployeeReportButton", e);
         }
@@ -1040,7 +1036,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     private void CourseReportPrintActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            CourseReport();
         } catch (Exception e) {
             LogCenter.logger.log(Level.WARNING, "CourseReport Button", e);
         }
@@ -1548,25 +1543,6 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     }
 
-    private void ClassReport() {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(Class_Attn_Table.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Class Attendance Report");
-
-            new Reporting().viewReport("ClassAttn", params, dataSource, admin);
-
-        } catch (IOException | ClassNotFoundException | JRException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error", ex);
-        }
-
-    }
 
     private void clearClassFieldMarkin() {
         Studen_ID_TextField.setText("");
@@ -1964,26 +1940,6 @@ public class StudentAttendance extends javax.swing.JPanel {
         }
     }
 
-    private void CourseReport() throws JRException {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(CourseTabel.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Course Attendance Report");
-
-            new Reporting().viewReport("CourseAttn", params, dataSource, admin);
-
-        } catch (IOException | ClassNotFoundException | JRException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error", ex);
-        }
-
-    }
-
     private void clearCourseField() {
         CourseSTID.setText("");
         CourseSTName.setText("");
@@ -2280,26 +2236,6 @@ public class StudentAttendance extends javax.swing.JPanel {
         employee_attn_table.clearSelection();
 
         loadEmpAttnTabel();
-
-    }
-
-    private void EmployeeReport() throws JRException {
-        Home home;
-        try {
-            home = new HomeInfo().getHome();
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(employee_attn_table.getModel());
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("landLine", home.getLandLine());
-            params.put("email", home.getEmail());
-            params.put("mobile", home.getMobile());
-            params.put("address", home.getLine01() + " " + home.getLine02() + " " + home.getCity());
-            params.put("title", "Employee Attendance Report");
-
-            new Reporting().viewReport("Employee_Attn", params, dataSource, admin);
-
-        } catch (IOException | ClassNotFoundException | JRException ex) {
-            LogCenter.logger.log(java.util.logging.Level.WARNING, "Error", ex);
-        }
 
     }
 
